@@ -12,7 +12,7 @@ pros::MotorGroup lift({-7, 14}, pros::MotorGears::red);
 // right motor group
 pros::MotorGroup right_motor_group({4, 9, 5}, pros::MotorGears::blue);
 // claw motor
-pros::Motor claw(-20, pros::MotorGears::green);
+pros::Motor claw(-19, pros::MotorGears::green);
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
                               &right_motor_group, // right motor group
@@ -150,17 +150,18 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-    left_motor_group.move(-90);
-    right_motor_group.move(-90);
-    pros::delay(300);
-    left_motor_group.move(0);
-    right_motor_group.move(0);
-    pros::delay(300);
     left_motor_group.move(90);
     right_motor_group.move(90);
     pros::delay(300);
     left_motor_group.move(0);
     right_motor_group.move(0);
+    pros::delay(300);
+    left_motor_group.move(-90);
+    right_motor_group.move(-90);
+    pros::delay(300);
+    left_motor_group.move(0);
+    right_motor_group.move(0);
+
 }
 
 /**
@@ -187,7 +188,7 @@ void opcontrol() {
 		// Arcade control scheme
 		//int leftY = pow(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 3);
         int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 1.70;
-		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 1.70;
+		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 1.8;
 		chassis.arcade(leftY, rightX, true, 0.5);
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			lift.move(-127);
@@ -199,10 +200,10 @@ void opcontrol() {
 			lift.move(0);
 		}
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-			claw.move(127);
+			claw.move(75);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			claw.move(-45);
+			claw.move(-60);
 		}
 		else {
 			claw.move(20);
