@@ -150,7 +150,11 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
+    left_motor_group.move(-90);
+    right_motor_group.move(-90);
+    pros::delay(300);
+    left_motor_group.move(0);
+    right_motor_group.move(0);
     chassis.turnToHeading(90, 1000);
     chassis.turnToHeading(0, 1000);
 }
@@ -194,7 +198,7 @@ void opcontrol() {
 			claw.move(127);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			claw.move(-127);
+			claw.move(-45);
 		}
 		else {
 			claw.move(20);
