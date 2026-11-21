@@ -178,7 +178,7 @@ void opcontrol() {
 
 		// Arcade control scheme
 		int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * 2;
-		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) / 1.27;
+		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 1.27;
 		chassis.arcade(leftY, rightX, true, 0.5);
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			lift.move(127);
