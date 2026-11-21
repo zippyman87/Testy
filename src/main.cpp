@@ -1,6 +1,7 @@
 #include "main.h"
 #include "api.h"
 #include "pros/motors.hpp"
+#include <atomic>
 
 
 // left motor group
@@ -69,6 +70,11 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         sensors // odometry sensors
 );
 
+// opcontrol loop counter, displayed by the screen task. Only one task may call
+// pros::lcd functions: LLEMU calls LVGL without a lock, so printing from two
+// tasks at once can freeze the program.
+std::atomic<int> opcontrol_loop_count{0};
+
 // initialize function. Runs on program startup
 
 /**
@@ -96,6 +102,9 @@ void on_center_button() {
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
+    // hold the lift in place when no button is pressed so it doesn't fall
+    // (set_brake_mode without _all only sets the first motor in the group)
+    lift.set_brake_mode_all(pros::MotorBrake::hold);
     // print position to brain screen
     pros::Task screen_task([&]() {
         while (true) {
@@ -103,6 +112,8 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // DEBUG: driver loop counter; should climb ~50/s while opcontrol runs
+            pros::lcd::print(4, "loop:%d", opcontrol_loop_count.load());
             // delay to save resources
             pros::delay(20);
         }
@@ -163,9 +174,7 @@ void opcontrol() {
 
 
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
+		opcontrol_loop_count++;
 
 		// Arcade control scheme
 		int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * 2;
@@ -175,7 +184,7 @@ void opcontrol() {
 			lift.move(127);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-			lift.move(-50);
+			lift.move(-127);
 		}
 		else {
 			lift.move(0);
@@ -187,7 +196,7 @@ void opcontrol() {
 			claw.move(-50);
 		}
 		else {
-			claw.move(50);
+			claw.move(20);
 		}
 		pros::delay(20);                               // Run for 20 ms then update
 	}
