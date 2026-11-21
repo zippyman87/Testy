@@ -24,11 +24,9 @@ lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
 // imu
 pros::Imu imu(6);
 // horizontal tracking wheel encoder
-pros::Rotation horizontal_encoder(20);
 // vertical tracking wheel encoder
 pros::adi::Encoder vertical_encoder('C', 'D', true);
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, -5.75);
 // vertical tracking wheel
 lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_325, -2.5);
 
