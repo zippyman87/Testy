@@ -155,8 +155,12 @@ void autonomous() {
     pros::delay(300);
     left_motor_group.move(0);
     right_motor_group.move(0);
-    chassis.turnToHeading(90, 1000);
-    chassis.turnToHeading(0, 1000);
+    pros::delay(300);
+    left_motor_group.move(90);
+    right_motor_group.move(90);
+    pros::delay(300);
+    left_motor_group.move(0);
+    right_motor_group.move(0);
 }
 
 /**
