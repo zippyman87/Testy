@@ -185,7 +185,7 @@ void opcontrol() {
 			lift.move(-127);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-			lift.move(50);
+			lift.move(127);
 		}
 		else {
 			lift.move(0);
