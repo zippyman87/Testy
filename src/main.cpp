@@ -184,7 +184,7 @@ void opcontrol() {
 			lift.move(127);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-			lift.move(-127);
+			lift.move(-50);
 		}
 		else {
 			lift.move(0);
@@ -193,7 +193,7 @@ void opcontrol() {
 			claw.move(127);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			claw.move(-50);
+			claw.move(-127);
 		}
 		else {
 			claw.move(20);
