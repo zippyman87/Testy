@@ -8,7 +8,7 @@
 
 pros::MotorGroup left_motor_group({-3, -10, -16}, pros::MotorGears::blue);
 // lift motor group
-pros::MotorGroup lift({-14, -13}, pros::MotorGears::red);
+pros::MotorGroup lift({-7, 14}, pros::MotorGears::red);
 // right motor group
 pros::MotorGroup right_motor_group({4, 9, 5}, pros::MotorGears::blue);
 // claw motor
@@ -177,8 +177,8 @@ void opcontrol() {
 		opcontrol_loop_count++;
 
 		// Arcade control scheme
-		int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * 2;
-		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 1.27;
+		int leftY = pow(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 2);
+		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 1.70;
 		chassis.arcade(leftY, rightX, true, 0.5);
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			lift.move(127);
