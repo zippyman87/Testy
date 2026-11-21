@@ -177,7 +177,7 @@ void opcontrol() {
 		opcontrol_loop_count++;
 
 		// Arcade control scheme
-		int leftY = pow(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 2);
+		int leftY = pow(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 3);
 		int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 1.70;
 		chassis.arcade(leftY, rightX, true, 0.5);
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
