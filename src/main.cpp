@@ -152,7 +152,7 @@ void competition_initialize() {}
 void autonomous() {
     left_motor_group.move(90);
     right_motor_group.move(90);
-    pros::delay(300);
+    pros::delay(450);
     left_motor_group.move(0);
     right_motor_group.move(0);
     pros::delay(300);
